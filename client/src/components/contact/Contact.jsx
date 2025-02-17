@@ -2,7 +2,7 @@ import "./contact.css";
 import emailjs from "@emailjs/browser";
 import { useRef, useState } from "react";
 import { motion, useInView } from "motion/react";
-import ContactSvg from "./ContactSvg";
+import ContactSvg from "./ContactSVG";
 
 const listVariant = {
   initial: {
