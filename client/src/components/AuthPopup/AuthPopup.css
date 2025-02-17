@@ -1,0 +1,154 @@
+/* Overlay for the entire screen */
+.auth-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+/* Container for the auth form popup */
+.auth-container {
+  position: relative;
+  z-index: 10; /* Make sure it's above the -1 canvas */
+  max-width: 400px;
+  width: 90%;
+  background: linear-gradient(135deg, #1c1c1c, #2c3e50);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.5);
+  color: #fff;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* Close button styling */
+.auth-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #fff;
+}
+
+/* Heading style */
+.auth-container h2 {
+  font-size: 2rem;
+  color: #ffd700;
+  margin-bottom: 20px;
+  text-shadow: 0 0 8px #ffd700;
+}
+
+/* Form layout */
+.auth-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Input fields */
+.auth-container input {
+  padding: 12px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  outline: none;
+  transition: background 0.3s ease;
+}
+
+.auth-container input:focus {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Submit button styling */
+.auth-container .auth-submit-btn {
+  padding: 12px 20px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #ffd700, #ffb300);
+  color: #1c1c1c;
+  cursor: pointer;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.auth-container .auth-submit-btn:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #ffb300, #ffd700);
+}
+
+/* Toggle text for switching login/register */
+.auth-toggle {
+  margin-top: 15px;
+  font-size: 0.9rem;
+  color: #ffd700;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.auth-toggle:hover {
+  color: #ffb300;
+}
+
+/* Responsive styles for screens up to 768px */
+@media (max-width: 768px) {
+  .auth-container {
+    padding: 20px;
+    max-width: 350px;
+  }
+
+  .auth-container h2 {
+    font-size: 1.8rem;
+  }
+
+  .auth-container input {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  .auth-container .auth-submit-btn {
+    padding: 10px 16px;
+    font-size: 1rem;
+  }
+
+  .auth-toggle {
+    font-size: 0.85rem;
+  }
+}
+
+/* Responsive styles for screens up to 480px */
+@media (max-width: 480px) {
+  .auth-container {
+    padding: 15px;
+    max-width: 300px;
+  }
+
+  .auth-container h2 {
+    font-size: 1.6rem;
+  }
+
+  .auth-container input {
+    padding: 8px;
+    font-size: 0.85rem;
+  }
+
+  .auth-container .auth-submit-btn {
+    padding: 8px 14px;
+    font-size: 0.9rem;
+  }
+
+  .auth-toggle {
+    font-size: 0.8rem;
+  }
+}

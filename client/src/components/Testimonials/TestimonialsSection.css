@@ -1,0 +1,13 @@
+.testimonials-section {
+  width: 100%;
+  margin: 100px 0; /* 100px top and bottom margin; adjust as needed */
+  padding: 20px;
+}
+
+.section-title {
+  text-align: center;
+  color: #fff;
+  margin-bottom: 40px; /* space between the title and carousel */
+  font-size: 2.5rem; /* adjust size to match your site’s typography */
+  font-family: "Helvetica Neue", sans-serif; /* update with your site’s font if needed */
+}

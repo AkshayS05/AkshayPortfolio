@@ -1,0 +1,8 @@
+/* EditIcon.css */
+.edit-icon {
+  /* Since these are 3D elements rendered via WebGL,
+       adding a cursor style here helps for any HTML overlay or if the canvas 
+       container picks up the class. */
+  cursor: pointer;
+  /* You can add additional CSS properties here if needed */
+}
