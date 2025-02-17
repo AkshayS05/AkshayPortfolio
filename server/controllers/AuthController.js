@@ -27,7 +27,7 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-
+    console.log("Login attempt with:", email, password);
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ error: "User not found" });
 
@@ -43,6 +43,7 @@ const loginUser = async (req, res) => {
       .cookie("token", token, {
         httpOnly: true,
         secure: true,
+        sameSite: "none",
       })
       .json({
         success: true,
