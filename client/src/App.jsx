@@ -16,6 +16,7 @@ import {
   resetTokenAndCredentials,
 } from "./features/auth/authSlice";
 import TestimonialsSection from "./components/Testimonials/TestimonialsSection ";
+import GlowingTree from "./components/SkillSets/Tree";
 
 const App = () => {
   const [showAuth, setShowAuth] = useState(false);
@@ -68,7 +69,9 @@ const App = () => {
       <section id="contact">
         <Contact />
       </section>
-
+      <section>
+        <GlowingTree />
+      </section>
       {showAuth &&
         ReactDOM.createPortal(
           <AuthPopup
