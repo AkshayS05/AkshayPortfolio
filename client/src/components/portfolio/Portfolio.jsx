@@ -7,77 +7,61 @@ const items = [
     id: 1,
     img: "/p1.jpg",
     title: "Full Stack Blog Application",
-    desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iure laboriosam tempore consectetur, atque maiores culpa quia, repellat id, dicta esse fugit neque voluptatem provident itaque voluptates minima. Repudiandae, provident hic.",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
     link: "/",
   },
   {
     id: 2,
     img: "/p2.jpg",
     title: "School Management System",
-    desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iure laboriosam tempore consectetur, atque maiores culpa quia, repellat id, dicta esse fugit neque voluptatem provident itaque voluptates minima. Repudiandae, provident hic.",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
     link: "/",
   },
   {
     id: 3,
     img: "/p3.jpg",
     title: "Real-time Chat Application",
-    desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iure laboriosam tempore consectetur, atque maiores culpa quia, repellat id, dicta esse fugit neque voluptatem provident itaque voluptates minima. Repudiandae, provident hic.",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
     link: "/",
   },
   {
     id: 4,
     img: "/p4.jpg",
     title: "Social Media Project",
-    desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iure laboriosam tempore consectetur, atque maiores culpa quia, repellat id, dicta esse fugit neque voluptatem provident itaque voluptates minima. Repudiandae, provident hic.",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
     link: "/",
   },
   {
     id: 5,
     img: "/p5.jpg",
     title: "Animated Portfolio Website",
-    desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iure laboriosam tempore consectetur, atque maiores culpa quia, repellat id, dicta esse fugit neque voluptatem provident itaque voluptates minima. Repudiandae, provident hic.",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
     link: "/",
   },
 ];
 
 const imgVariants = {
-  initial: {
-    x: -500,
-    y: 500,
-    opacity: 0,
-  },
+  initial: { x: -500, y: 500, opacity: 0 },
   animate: {
     x: 0,
     y: 0,
     opacity: 1,
-    transition: {
-      duration: 0.5,
-      ease: "easeInOut",
-    },
+    transition: { duration: 0.5, ease: "easeInOut" },
   },
 };
 
 const textVariants = {
-  initial: {
-    x: 500,
-    y: 500,
-    opacity: 0,
-  },
+  initial: { x: 500, y: 500, opacity: 0 },
   animate: {
     x: 0,
     y: 0,
     opacity: 1,
-    transition: {
-      duration: 0.5,
-      ease: "easeInOut",
-      staggerChildren: 0.05,
-    },
+    transition: { duration: 0.5, ease: "easeInOut", staggerChildren: 0.05 },
   },
 };
 
 const ListItem = ({ item }) => {
   const ref = useRef();
-
   const isInView = useInView(ref, { margin: "-100px" });
 
   return (
@@ -87,7 +71,7 @@ const ListItem = ({ item }) => {
         animate={isInView ? "animate" : "initial"}
         className="pImg"
       >
-        <img src={item.img} alt="" />
+        <img src={item.img} alt={item.title} />
       </motion.div>
       <motion.div
         variants={textVariants}
@@ -105,36 +89,20 @@ const ListItem = ({ item }) => {
 };
 
 const Portfolio = () => {
-  const [containerDistance, setContainerDistance] = useState(0);
-  const ref = useRef(null);
+  // Determine if we're on a larger screen (desktop) or mobile/tablet.
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 1024);
+  const portfolioRef = useRef(null);
 
-  // useEffect(() => {
-  //   if (ref.current) {
-  //     const rect = ref.current.getBoundingClientRect();
-  //     setContainerDistance(rect.left);
-  //   }
-  // }, []);
-
-  // FIX: Re-calculate when screen size changes
   useEffect(() => {
-    const calculateDistance = () => {
-      if (ref.current) {
-        const rect = ref.current.getBoundingClientRect();
-        setContainerDistance(rect.left);
-      }
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth > 1024);
     };
-
-    calculateDistance();
-
-    window.addEventListener("resize", calculateDistance);
-
-    return () => {
-      window.removeEventListener("resize", calculateDistance);
-    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const { scrollYProgress } = useScroll({ target: ref });
-
+  // Set up horizontal scrolling logic only for desktop.
+  const { scrollYProgress } = useScroll({ target: portfolioRef });
   const xTranslate = useTransform(
     scrollYProgress,
     [0, 1],
@@ -142,24 +110,28 @@ const Portfolio = () => {
   );
 
   return (
-    <div className="portfolio" ref={ref}>
-      <motion.div className="pList" style={{ x: xTranslate }}>
-        <div
-          className="empty"
-          style={{
-            width: window.innerWidth - containerDistance,
-            // backgroundColor: "pink",
-          }}
-        />
+    <div className="portfolio" ref={portfolioRef}>
+      <motion.div className="pList" style={isDesktop ? { x: xTranslate } : {}}>
+        {/* Render the filler element only on desktop */}
+        {isDesktop && (
+          <div className="empty" style={{ width: window.innerWidth }} />
+        )}
         {items.map((item) => (
           <ListItem item={item} key={item.id} />
         ))}
       </motion.div>
-      <section />
-      <section />
-      <section />
-      <section />
-      <section />
+
+      {/* Render extra sections only on desktop to drive the horizontal scroll */}
+      {isDesktop && (
+        <>
+          <section />
+          <section />
+          <section />
+          <section />
+          <section />
+        </>
+      )}
+
       <div className="pProgress">
         <svg width="100%" height="100%" viewBox="0 0 160 160">
           <circle

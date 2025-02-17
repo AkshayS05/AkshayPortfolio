@@ -111,10 +111,30 @@
 }
 
 @media (max-width: 1024px) {
-  .pItem {
-    flex-direction: column;
+  .portfolio {
+    height: auto;
   }
-
+  html {
+    scroll-snap-type: none; /* disable snapping entirely */
+    scroll-behavior: auto; /* optional: override smooth scrolling */
+  }
+  section {
+    scroll-snap-align: none; /* disable snap alignment */
+    height: auto; /* let content dictate height */
+    min-height: 100vh; /* optional if you still want near-fullscreen sections */
+  }
+  .pList {
+    position: static;
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .pItem {
+    width: 100%;
+    height: auto;
+    flex-direction: column;
+    margin-bottom: 40px;
+  }
   .pImg,
   .pText {
     width: 80%;
