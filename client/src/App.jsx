@@ -69,9 +69,7 @@ const App = () => {
       <section id="contact">
         <Contact />
       </section>
-      <section>
-        <GlowingTree />
-      </section>
+      <section>{/* <GlowingTree /> */}</section>
       {showAuth &&
         ReactDOM.createPortal(
           <AuthPopup

@@ -1,13 +1,36 @@
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Text } from "@react-three/drei";
-import { Bloom, EffectComposer } from "@react-three/postprocessing";
-import { useState } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { OrbitControls, useGLTF, Text } from "@react-three/drei";
+import { EffectComposer, Bloom } from "@react-three/postprocessing";
+import { useRef } from "react";
+import * as THREE from "three";
 
-const skills = ["MongoDB", "React", "Three.js", "Node.js", "CSS", "HTML"];
+// Load and modify the tree model
+const TreeModel = () => {
+  const { scene } = useGLTF("/tree.glb"); // Load your GLB model
 
-function Leaf({ position, skill }) {
+  scene.traverse((obj) => {
+    if (obj.isMesh && obj.name.includes("Leaves")) {
+      obj.material = new THREE.MeshStandardMaterial({
+        color: "green",
+        emissive: "lime",
+        emissiveIntensity: 2,
+      });
+    }
+  });
+
+  return <primitive object={scene} scale={3} position={[0, -1, 0]} />;
+};
+
+// Floating leaves animation
+const FloatingLeaves = ({ position, skill }) => {
+  const ref = useRef();
+  useFrame(({ clock }) => {
+    ref.current.position.y =
+      position[1] + Math.sin(clock.getElapsedTime()) * 0.2;
+  });
+
   return (
-    <group position={position}>
+    <group ref={ref} position={position}>
       <mesh>
         <sphereGeometry args={[0.2, 32, 32]} />
         <meshStandardMaterial emissive="green" emissiveIntensity={3} />
@@ -23,46 +46,29 @@ function Leaf({ position, skill }) {
       </Text>
     </group>
   );
-}
-
-function Tree() {
-  const leaves = skills.map((skill, i) => ({
-    position: [
-      Math.random() * 2 - 1,
-      Math.random() * 3 + 1,
-      Math.random() * 2 - 1,
-    ],
-    skill,
-  }));
-
-  return (
-    <group>
-      {/* Tree Trunk */}
-      <mesh position={[0, 0.5, 0]}>
-        <cylinderGeometry args={[0.2, 0.3, 1.5, 8]} />
-        <meshStandardMaterial color="brown" />
-      </mesh>
-
-      {/* Leaves */}
-      {leaves.map((leaf, index) => (
-        <Leaf key={index} position={leaf.position} skill={leaf.skill} />
-      ))}
-    </group>
-  );
-}
+};
 
 export default function GlowingTree() {
+  const skills = ["MongoDB", "React", "Three.js", "Node.js", "CSS", "HTML"];
+  const leaves = [
+    [1, 2, 0],
+    [-1, 2.5, 1],
+    [0.5, 3, -1],
+    [-0.8, 2.7, 1.5],
+    [1.2, 3.2, -0.6],
+    [-1.3, 2.8, 0.9],
+  ];
+
   return (
-    <Canvas camera={{ position: [0, 3, 5] }}>
+    <Canvas camera={{ position: [0, 3, 6] }}>
       <ambientLight intensity={0.5} />
-      <pointLight position={[5, 5, 5]} intensity={2} />
-      <Tree />
+      <directionalLight position={[5, 10, 5]} intensity={1} />
+      <TreeModel />
+      {skills.map((skill, i) => (
+        <FloatingLeaves key={i} position={leaves[i]} skill={skill} />
+      ))}
       <EffectComposer>
-        <Bloom
-          intensity={1.5}
-          luminanceThreshold={0.2}
-          luminanceSmoothing={0.9}
-        />
+        <Bloom intensity={1.5} luminanceThreshold={0.1} />
       </EffectComposer>
       <OrbitControls />
     </Canvas>

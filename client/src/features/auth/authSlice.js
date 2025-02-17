@@ -12,7 +12,7 @@ export const registerUser = createAsyncThunk(
   "/auth/register",
   async (formData) => {
     const response = await axios.post(
-      `${import.meta.env.API_URL}/api/auth/register`,
+      `${import.meta.env.VITE_API_URL}/api/auth/register`,
       formData,
       {
         withCredentials: true,
@@ -22,9 +22,8 @@ export const registerUser = createAsyncThunk(
   }
 );
 export const loginUser = createAsyncThunk("/auth/login", async (formData) => {
-  console.log("Logging in with:", formData);
   const response = await axios.post(
-    `${import.meta.env.VITE_API_URL}api/auth/login`,
+    `${import.meta.env.VITE_API_URL}/api/auth/login`,
     formData,
     {
       withCredentials: true,
