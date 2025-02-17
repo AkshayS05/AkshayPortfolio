@@ -39,11 +39,11 @@ const loginUser = async (req, res) => {
       "SECRET_KEY",
       { expiresIn: "7d" }
     );
+    console.log("Generated token:", token);
     res
       .cookie("token", token, {
         httpOnly: true,
         secure: true,
-        sameSite: "none",
       })
       .json({
         success: true,
