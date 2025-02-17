@@ -10,13 +10,8 @@ import StarRatingPopup from "./components/StarComponent/StarRatingPopup";
 import AuthPopup from "./components/AuthPopup/AuthPopup";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {
-  checkAuth,
-  logoutUser,
-  resetTokenAndCredentials,
-} from "./features/auth/authSlice";
+import { checkAuth, logoutUser } from "./features/auth/authSlice";
 import TestimonialsSection from "./components/Testimonials/TestimonialsSection ";
-import GlowingTree from "./components/SkillSets/Tree";
 
 const App = () => {
   const [showAuth, setShowAuth] = useState(false);
@@ -30,8 +25,7 @@ const App = () => {
 
   // Dispatch checkAuth() on mount to fetch user info using cookies
   useEffect(() => {
-    const token = JSON.parse(sessionStorage.getItem("token"));
-    dispatch(checkAuth(token));
+    dispatch(checkAuth());
   }, [dispatch]);
 
   const handleLoginSuccess = () => {
@@ -45,9 +39,7 @@ const App = () => {
   };
 
   function handleLogout() {
-    // dispatch(logoutUser());
-    dispatch(resetTokenAndCredentials());
-    sessionStorage.clear();
+    dispatch(logoutUser());
   }
   return (
     <div className="container">
@@ -69,7 +61,7 @@ const App = () => {
       <section id="contact">
         <Contact />
       </section>
-      <section>{/* <GlowingTree /> */}</section>
+
       {showAuth &&
         ReactDOM.createPortal(
           <AuthPopup
