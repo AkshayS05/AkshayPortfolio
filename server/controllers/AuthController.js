@@ -114,7 +114,7 @@ const logoutUser = async (req, res) => {
     // Clear the token cookie with matching options
     res.clearCookie("token", {
       httpOnly: true,
-      secure: false, // This should match what was used when setting the cookie
+      secure: true, // This should match what was used when setting the cookie
       sameSite: "none",
     });
 
@@ -127,7 +127,7 @@ const logoutUser = async (req, res) => {
     // Even if verification fails, clear the cookie to ensure logout
     res.clearCookie("token", {
       httpOnly: true,
-      secure: false,
+      secure: true,
       sameSite: "none",
     });
     return res.status(200).json({
