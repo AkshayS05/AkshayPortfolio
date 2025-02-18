@@ -4,6 +4,9 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const router = express.Router();
 const jwtSecret = process.env.JWT_SECRET || "SECRET_KEY";
+const Session = require("../models/Session");
+const { saveSession, deleteSession } = require("../helpers/sessionCache");
+
 // 🔹 Register User
 const registerUser = async (req, res) => {
   try {
@@ -27,7 +30,7 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log("Login attempt with:", email, password);
+
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ error: "User not found" });
 
@@ -39,11 +42,19 @@ const loginUser = async (req, res) => {
       "SECRET_KEY",
       { expiresIn: "7d" }
     );
-    console.log("Generated token:", token);
+    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+    // Save the session in the in-memory cache (using the user ID as key)
+
+    saveSession(user._id.toString(), token);
+    await Session.create({
+      userId: user._id,
+      token: token,
+      expiresAt: expiresAt,
+    });
     res
       .cookie("token", token, {
         httpOnly: true,
-        secure: true,
+        secure: false,
         sameSite: "none",
       })
       .json({
@@ -74,10 +85,56 @@ const authMiddleware = (req, res, next) => {
 };
 
 //logout
-const logoutUser = (req, res) => {
-  res.clearCookie("token").json({
-    success: true,
-    message: "Logged out successfully!",
-  });
+const logoutUser = async (req, res) => {
+  const token = req.cookies.token;
+
+  // If no token is found, clear any leftover cookie and respond success.
+  if (!token) {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: false, // Match your login settings
+      sameSite: "none",
+    });
+    return res.status(200).json({
+      success: true,
+      message: "Logged out successfully (no token found)",
+    });
+  }
+
+  try {
+    // Decode the token to get the user ID
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || "SECRET_KEY");
+    const userId = decoded.id;
+
+    // Remove the session from the in-memory cache (and optionally from the DB)
+    deleteSession(userId);
+    // If you're using persistent sessions, you could also do:
+    await Session.deleteOne({ userId, token });
+
+    // Clear the token cookie with matching options
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: false, // This should match what was used when setting the cookie
+      sameSite: "none",
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Logged out successfully",
+    });
+  } catch (error) {
+    console.error("Error during logout token verification:", error);
+    // Even if verification fails, clear the cookie to ensure logout
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: false,
+      sameSite: "none",
+    });
+    return res.status(200).json({
+      success: true,
+      message: "Logged out (token invalid)",
+    });
+  }
 };
+
 module.exports = { registerUser, loginUser, logoutUser, authMiddleware };

@@ -12,7 +12,6 @@ router.post("/login", loginUser);
 router.post("/logout", logoutUser);
 
 router.get("/check-auth", authMiddleware, (req, res) => {
-  console.log(req.user);
   if (!req.user) {
     return res.status(401).json({ success: false, message: "No user data" });
   }
