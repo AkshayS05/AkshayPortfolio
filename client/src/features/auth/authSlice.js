@@ -48,10 +48,16 @@ export const checkAuth = createAsyncThunk(
       // Return only the user object:
       return response.data.user;
     } catch (error) {
+      // If the error status is 401, it means the user is not logged in.
+      if (error.response && error.response.status === 401) {
+        // Instead of rejecting, we return null (or you could return an object indicating not authenticated)
+        return null;
+      }
       return thunkAPI.rejectWithValue(error.response.data.error);
     }
   }
 );
+
 export const logoutUser = createAsyncThunk(
   "/auth/logout",
 

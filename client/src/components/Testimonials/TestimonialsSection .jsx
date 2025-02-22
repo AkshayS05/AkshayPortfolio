@@ -1,6 +1,11 @@
+import { useEffect } from "react";
 import { motion } from "motion/react";
+import { useDispatch, useSelector } from "react-redux";
+
 import TestimonialCarousel3D from "./Testimonials3D";
-import "./TestimonialsSection.css"; // Import the CSS file
+import "./TestimonialsSection.css";
+import { fetchAllReviews } from "../../features/rating/ratingSlice";
+
 const textVariants = {
   initial: {
     x: -100,
@@ -16,7 +21,16 @@ const textVariants = {
     },
   },
 };
+
 const TestimonialsSection = () => {
+  const dispatch = useDispatch();
+  const { reviews, isLoading, error } = useSelector((state) => state.rating);
+
+  useEffect(() => {
+    // Dispatch fetchAllReviews on mount regardless of auth state.
+    dispatch(fetchAllReviews());
+  }, [dispatch]);
+
   return (
     <section id="testimonials" className="testimonials-section">
       <motion.h2
@@ -27,7 +41,13 @@ const TestimonialsSection = () => {
       >
         What Others Say
       </motion.h2>
-      <TestimonialCarousel3D />
+      {isLoading ? (
+        <p>Loading reviews...</p>
+      ) : error ? (
+        <p>Error: {error}</p>
+      ) : (
+        <TestimonialCarousel3D reviews={reviews} />
+      )}
     </section>
   );
 };

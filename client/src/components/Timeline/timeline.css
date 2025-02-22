@@ -1,0 +1,128 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap");
+
+.snake-section {
+  position: relative;
+  padding: 2rem;
+  background: transparent;
+  color: #fff;
+  text-align: center;
+  overflow: hidden;
+  font-family: "Montserrat", sans-serif;
+}
+
+.snake-title {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.snake-svg {
+  width: 100%;
+  height: auto;
+  background: transparent;
+}
+
+.snake-path {
+  fill: none;
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-dasharray: 2000;
+  stroke-dashoffset: 2000;
+  animation: drawSnake 3s ease forwards;
+}
+
+@keyframes drawSnake {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.floating-logo {
+  animation: floatUpDown 2s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+@keyframes floatUpDown {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.timeline-text {
+  fill: #fff;
+  filter: url(#textGlow);
+  opacity: 0;
+  animation: fadeInText 1s ease forwards;
+}
+
+.timeline-text.company {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.timeline-text.dates,
+.timeline-text.title {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+@keyframes fadeInText {
+  to {
+    opacity: 1;
+  }
+}
+
+.experience-dot {
+  fill: #fff;
+  stroke: #ccc;
+  stroke-width: 2;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    r: 5;
+    opacity: 1;
+  }
+  50% {
+    r: 7;
+    opacity: 0.7;
+  }
+  100% {
+    r: 5;
+    opacity: 1;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .snake-section {
+    padding: 1rem;
+  }
+  .snake-title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  .snake-path {
+    stroke-width: 6;
+  }
+  .floating-logo {
+    width: 40px;
+    height: 40px;
+  }
+  .timeline-text.company {
+    font-size: 16px;
+  }
+  .timeline-text.dates,
+  .timeline-text.title {
+    font-size: 12px;
+  }
+  .experience-dot {
+    r: 4;
+  }
+}

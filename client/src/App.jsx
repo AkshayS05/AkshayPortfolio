@@ -13,6 +13,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { checkAuth, logoutUser } from "./features/auth/authSlice";
 import TestimonialsSection from "./components/Testimonials/TestimonialsSection ";
 
+import Timeline from "./components/Timeline/Timeline";
+
 const App = () => {
   const [showAuth, setShowAuth] = useState(false);
   const [showReviewPopup, setShowReviewPopup] = useState(false);
@@ -38,9 +40,11 @@ const App = () => {
     setShowReviewPopup(false);
   };
 
-  function handleLogout() {
-    dispatch(logoutUser());
-  }
+  const handleLogout = async () => {
+    await dispatch(logoutUser());
+    localStorage.removeItem("token"); // 🔹 Clear token on logout
+    setShowAuth(false); // 🔹 Close auth popup if open
+  };
   return (
     <div className="container">
       <section id="home">
@@ -55,6 +59,9 @@ const App = () => {
         <Services />
       </section>
       <Portfolio />
+      <section>
+        <Timeline />
+      </section>
       <section>
         <TestimonialsSection />
       </section>

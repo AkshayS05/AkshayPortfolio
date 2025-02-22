@@ -2,7 +2,7 @@
 .hero2 {
   position: relative;
   height: 80vh;
-  background: linear-gradient(135deg, #2f204e, #dd4c62);
+  /* background: linear-gradient(135deg, #2f204e23, #dd4c6231); */
   overflow: hidden;
 }
 
@@ -28,7 +28,7 @@
   transform: translateY(-50%);
   background: rgba(221, 76, 98, 0.7);
   border: none;
-  color: white;
+  /* color: white; */
   font-size: 2rem;
   padding: 10px 20px;
   cursor: pointer;
@@ -52,4 +52,48 @@
   color: #dd4c62;
   font-size: 1rem;
   z-index: 10;
+}
+
+/* Responsive adjustments for small and medium screens */
+
+/* For medium screens (up to 768px wide) */
+@media (max-width: 768px) {
+  .hero2 {
+    height: 70vh; /* slightly reduced height */
+  }
+  .nav-button {
+    font-size: 1.5rem;
+    padding: 8px 16px;
+  }
+  .nav-button.prev {
+    left: 10px;
+  }
+  .nav-button.next {
+    right: 10px;
+  }
+  .scroll-instructions {
+    font-size: 0.9rem;
+    bottom: 15px;
+  }
+}
+
+/* For small screens (up to 480px wide) */
+@media (max-width: 480px) {
+  .hero2 {
+    height: 60vh; /* further reduced for smaller devices */
+  }
+  .nav-button {
+    font-size: 1.2rem;
+    padding: 6px 12px;
+  }
+  .nav-button.prev {
+    left: 5px;
+  }
+  .nav-button.next {
+    right: 5px;
+  }
+  .scroll-instructions {
+    font-size: 0.8rem;
+    bottom: 10px;
+  }
 }

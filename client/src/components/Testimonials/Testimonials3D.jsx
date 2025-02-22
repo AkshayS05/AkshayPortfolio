@@ -24,9 +24,9 @@ const Testimonials3D = () => {
   // Trigger deletion animation on the current card
   const [deleteTriggered, setDeleteTriggered] = useState(false);
 
-  useEffect(() => {
-    dispatch(fetchAllReviews());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchAllReviews());
+  // }, [dispatch]);
 
   // Navigation
   const handleNext = () => {
