@@ -12,7 +12,7 @@ const SplashScreen = ({ onComplete }) => {
 
   return (
     <div className="splash-container">
-      <img src="/public/brand_logo.png" alt="Logo" className="splash-logo" />
+      <img src="/brand_logo.png" alt="Logo" className="splash-logo" />
     </div>
   );
 };
