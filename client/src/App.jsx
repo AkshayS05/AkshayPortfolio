@@ -77,9 +77,9 @@ const App = () => {
           <section id="contact">
             <Contact />
           </section>
-          <section className="footer-section">
+          <footer className="footer-section">
             <Footer />
-          </section>
+          </footer>
           {showAuth &&
             ReactDOM.createPortal(
               <AuthPopup
@@ -100,7 +100,11 @@ const App = () => {
               document.body
             )}
 
-          <ToastContainer position="top-right" autoClose={3000} />
+          <ToastContainer
+            className="toast"
+            position="top-right"
+            autoClose={3000}
+          />
         </div>
       )}
     </>

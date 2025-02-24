@@ -34,8 +34,11 @@ section {
   height: 100vh;
   scroll-snap-align: center;
 }
-.Toastify {
-  height: 0;
+section.Toastify,
+section.toast,
+.Toastify__toast-container {
+  height: auto !important;
+  min-height: auto !important;
 }
 .footer-section {
   margin-top: 5rem;
@@ -49,6 +52,9 @@ section {
 @media (min-width: 768px) {
   .container {
     max-width: 768px;
+  }
+  .toast {
+    height: 0vh;
   }
 }
 @media (min-width: 1024px) {

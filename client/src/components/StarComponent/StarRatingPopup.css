@@ -1,28 +1,31 @@
-/* Popup overlay covers the entire viewport */
+/* Popup overlay covers the entire viewport with a dark, semi‑transparent background */
 .popup-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.7); /* dark overlay */
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 9999;
 }
 
-/* Modal container */
+/* Popup content container using your dark theme */
 .popup-content {
   position: relative;
   width: 600px;
   max-width: 90%;
   height: 600px;
   max-height: 90%;
-  background: #1e1e1e; /* simple dark background */
+  background: #2f204e; /* Matches your theme's dark color */
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
 }
 
 /* Close button styling */
@@ -37,116 +40,86 @@
   cursor: pointer;
 }
 
-/* Rating container styling */
-.rating-container {
-  text-align: center;
-  padding: 20px;
-  color: #fff;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-/* Title styling */
+/* Title styling with gold accent */
 .rating-title {
   font-size: 1.8rem;
   font-weight: bold;
   margin-bottom: 10px;
-  color: gold; /* gold text to match star color */
+  color: gold;
+  text-align: center;
 }
 
+/* Star rating container updated with a vibrant radial gradient */
 .star-canvas-container {
   width: 100%;
-  height: 250px; /* bigger area to see bigger stars */
-  background: #000;
+  height: 250px;
+  background: radial-gradient(circle at center, #dd4c62, #2f204e);
   border-radius: 8px;
   margin-bottom: 10px;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
-/* Testimonial input */
+/* Testimonial textarea styled to match the dark theme */
 .testimonial-input {
   display: block;
-  width: 90%;
+  width: 100%;
   margin: 0 auto 10px;
   padding: 10px;
   font-size: 1rem;
-  border: none;
+  border: 1px solid #444;
   border-radius: 5px;
+  background: #1e1e1e;
+  color: #fff;
 }
 
-/* Horizontal button row */
+/* Button container to space the action buttons evenly */
 .button-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px; /* Adds space between buttons */
-  width: 80%;
-  margin: 0 auto 10px;
+  gap: 20px;
+  width: 100%;
+  margin: 10px auto;
 }
 
-/* Submit button */
-/* .auth-btn {
-  display: block;
-  margin: 0 auto 10px;
-  background: gold;
-  color: #000;
-  font-weight: bold;
+/* Auth button base styles */
+.auth-btn {
   border: none;
-  padding: 8px 16px;
+  padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
   transition: transform 0.3s ease;
-} */
-.button-container .auth-btn {
-  display: inline-block;
-  margin: 0; /* Remove auto margins so they sit side by side */
+  font-weight: bold;
+}
+
+/* Primary review button uses pink */
+.auth-btn.review-btn {
+  background: #dd4c62;
+  color: #fff;
+}
+
+/* Secondary logout button uses the dark theme color */
+.auth-btn.logout-btn {
+  background: #2f204e;
+  color: #fff;
 }
 
 .auth-btn:hover {
   transform: translateY(-3px);
 }
 
-/* Ratings info & testimonials */
-/* Average rating text */
+/* Average rating text styling */
 .avg-rating {
   text-align: center;
   color: #fff;
   font-size: 1.2rem;
   margin-top: 10px;
 }
-.testimonials-title {
-  font-size: 1.2rem;
-  color: gold;
-  margin: 10px 0 5px;
-}
 
-.testimonials-container {
-  max-height: 140px;
-  overflow-y: auto;
-  margin: 0 auto;
-  width: 90%;
-}
-
-.testimonial-card {
-  background: #333;
-  color: #fff;
-  padding: 10px;
-  margin: 5px 0;
-  border-radius: 4px;
-}
-
-.testimonial-rating {
-  color: gold;
-  font-weight: bold;
-  margin-top: 5px;
-}
-
-.no-testimonials {
-  color: #aaa;
-  margin: 10px 0;
-}
 /* Responsive styles for screens up to 768px */
 @media (max-width: 768px) {
   .popup-content {
@@ -154,31 +127,24 @@
     height: auto;
     padding: 15px;
   }
-
   .star-canvas-container {
     height: 200px;
   }
-
   .testimonial-input {
-    width: 100%;
     font-size: 0.9rem;
     padding: 8px;
   }
-
   .button-container {
-    width: 100%;
     gap: 15px;
+    flex-direction: column;
   }
-
   .auth-btn {
     padding: 8px 12px;
     font-size: 0.9rem;
   }
-
   .rating-title {
     font-size: 1.5rem;
   }
-
   .avg-rating {
     font-size: 1rem;
   }
@@ -190,32 +156,20 @@
     width: 95%;
     padding: 10px;
   }
-
   .star-canvas-container {
     height: 150px;
   }
-
   .testimonial-input {
-    width: 100%;
     font-size: 0.8rem;
     padding: 6px;
   }
-
-  .button-container {
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
-  }
-
   .auth-btn {
     padding: 6px 10px;
     font-size: 0.8rem;
   }
-
   .rating-title {
     font-size: 1.3rem;
   }
-
   .avg-rating {
     font-size: 0.9rem;
   }
