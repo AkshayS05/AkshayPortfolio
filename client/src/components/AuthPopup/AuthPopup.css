@@ -11,16 +11,17 @@
   justify-content: center;
   z-index: 9999;
 }
+
 /* Container for the auth form popup */
 .auth-container {
   position: relative;
-  z-index: 10; /* Make sure it's above the -1 canvas */
+  z-index: 10;
   max-width: 400px;
   width: 90%;
-  background: linear-gradient(135deg, #1c1c1c, #2c3e50);
+  background: linear-gradient(135deg, #2f204e, #dd4c62);
   padding: 30px;
   border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.5);
+  box-shadow: 0 4px 15px rgba(221, 76, 98, 0.5);
   color: #fff;
   text-align: center;
   overflow: hidden;
@@ -76,15 +77,15 @@
   font-weight: bold;
   border: none;
   border-radius: 8px;
-  background: linear-gradient(135deg, #ffd700, #ffb300);
-  color: #1c1c1c;
+  background-color: #dd4c62;
+  color: #fff;
   cursor: pointer;
   transition: transform 0.3s ease, background 0.3s ease;
 }
 
 .auth-container .auth-submit-btn:hover {
   transform: scale(1.05);
-  background: linear-gradient(135deg, #ffb300, #ffd700);
+  background-color: #c74456;
 }
 
 /* Toggle text for switching login/register */
@@ -107,21 +108,17 @@
     padding: 20px;
     max-width: 350px;
   }
-
   .auth-container h2 {
     font-size: 1.8rem;
   }
-
   .auth-container input {
     padding: 10px;
     font-size: 0.9rem;
   }
-
   .auth-container .auth-submit-btn {
     padding: 10px 16px;
     font-size: 1rem;
   }
-
   .auth-toggle {
     font-size: 0.85rem;
   }
@@ -133,21 +130,17 @@
     padding: 15px;
     max-width: 300px;
   }
-
   .auth-container h2 {
     font-size: 1.6rem;
   }
-
   .auth-container input {
     padding: 8px;
     font-size: 0.85rem;
   }
-
   .auth-container .auth-submit-btn {
     padding: 8px 14px;
     font-size: 0.9rem;
   }
-
   .auth-toggle {
     font-size: 0.8rem;
   }

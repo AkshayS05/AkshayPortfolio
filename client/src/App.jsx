@@ -14,6 +14,8 @@ import { checkAuth, logoutUser } from "./features/auth/authSlice";
 import TestimonialsSection from "./components/Testimonials/TestimonialsSection ";
 
 import Timeline from "./components/Timeline/Timeline";
+import SplashScreen from "./components/SplashScreen/SplashScreen";
+import Footer from "./components/Footer/Footer";
 
 const App = () => {
   const [showAuth, setShowAuth] = useState(false);
@@ -45,53 +47,63 @@ const App = () => {
     localStorage.removeItem("token"); // 🔹 Clear token on logout
     setShowAuth(false); // 🔹 Close auth popup if open
   };
+
+  const [showSplash, setShowSplash] = useState(true);
+
   return (
-    <div className="container">
-      <section id="home">
-        <Hero
-          user={user}
-          onAuthOpen={() => setShowAuth(true)}
-          onReviewOpen={() => setShowReviewPopup(true)}
-          onLogout={handleLogout}
-        />
-      </section>
-      <section id="services">
-        <Services />
-      </section>
-      <Portfolio />
-      <section>
-        <Timeline />
-      </section>
-      <section>
-        <TestimonialsSection />
-      </section>
-      <section id="contact">
-        <Contact />
-      </section>
+    <>
+      {showSplash ? (
+        <SplashScreen onComplete={() => setShowSplash(false)} />
+      ) : (
+        <div className="container">
+          <section id="home">
+            <Hero
+              user={user}
+              onAuthOpen={() => setShowAuth(true)}
+              onReviewOpen={() => setShowReviewPopup(true)}
+              onLogout={handleLogout}
+            />
+          </section>
+          <section id="services">
+            <Services />
+          </section>
+          <Portfolio />
+          <section>
+            <Timeline />
+          </section>
+          <section>
+            <TestimonialsSection />
+          </section>
+          <section id="contact">
+            <Contact />
+          </section>
+          <section className="footer-section">
+            <Footer />
+          </section>
+          {showAuth &&
+            ReactDOM.createPortal(
+              <AuthPopup
+                onClose={() => setShowAuth(false)}
+                onLoginSuccess={handleLoginSuccess}
+              />,
+              document.body
+            )}
 
-      {showAuth &&
-        ReactDOM.createPortal(
-          <AuthPopup
-            onClose={() => setShowAuth(false)}
-            onLoginSuccess={handleLoginSuccess}
-          />,
-          document.body
-        )}
+          {showReviewPopup &&
+            user &&
+            ReactDOM.createPortal(
+              <StarRatingPopup
+                user={user}
+                onSubmit={handleReviewSubmit}
+                onClose={() => setShowReviewPopup(false)}
+              />,
+              document.body
+            )}
 
-      {showReviewPopup &&
-        user &&
-        ReactDOM.createPortal(
-          <StarRatingPopup
-            user={user}
-            onSubmit={handleReviewSubmit}
-            onClose={() => setShowReviewPopup(false)}
-          />,
-          document.body
-        )}
-
-      <ToastContainer position="top-right" autoClose={3000} />
-    </div>
+          <ToastContainer position="top-right" autoClose={3000} />
+        </div>
+      )}
+    </>
   );
 };
-
 export default App;

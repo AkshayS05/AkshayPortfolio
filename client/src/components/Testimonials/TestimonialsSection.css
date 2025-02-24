@@ -1,13 +1,43 @@
 .testimonials-section {
   width: 100%;
-  margin: 100px 0; /* 100px top and bottom margin; adjust as needed */
-  padding: 20px;
+  margin: 100px 0; /* Adjust top/bottom margin as needed */
+  padding: 30px 20px;
+  background: linear-gradient(135deg, #2f204e, #dd4c62); /* Thematic gradient */
+  color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(221, 76, 98, 0.3);
 }
 
 .section-title {
   text-align: center;
-  color: #fff;
-  margin-bottom: 40px; /* space between the title and carousel */
-  font-size: 2.5rem; /* adjust size to match your site’s typography */
-  font-family: "Helvetica Neue", sans-serif; /* update with your site’s font if needed */
+  color: #ffd700; /* Gold accent */
+  margin-bottom: 40px; /* Space between title and content */
+  font-size: 2.5rem; /* Large heading */
+  font-family: "Helvetica Neue", sans-serif;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.8);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .testimonials-section {
+    margin: 60px 0;
+    padding: 20px 15px;
+  }
+
+  .section-title {
+    font-size: 2rem;
+    margin-bottom: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .testimonials-section {
+    margin: 40px 0;
+    padding: 15px 10px;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
 }

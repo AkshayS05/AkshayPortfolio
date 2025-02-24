@@ -37,9 +37,13 @@
   }
 }
 
+/* Floating logo: you can keep the floating animation if desired */
 .floating-logo {
   animation: floatUpDown 2s ease-in-out infinite;
   animation-delay: 1s;
+  width: 60px;
+  height: 150px;
+  object-fit: cover;
 }
 
 @keyframes floatUpDown {
@@ -54,6 +58,7 @@
   }
 }
 
+/* Timeline text styles */
 .timeline-text {
   fill: #fff;
   filter: url(#textGlow);
@@ -78,6 +83,7 @@
   }
 }
 
+/* Dot on the snake path */
 .experience-dot {
   fill: #fff;
   stroke: #ccc;
@@ -100,6 +106,7 @@
   }
 }
 
+/* Responsive Styles */
 @media only screen and (max-width: 768px) {
   .snake-section {
     padding: 1rem;
@@ -110,10 +117,6 @@
   }
   .snake-path {
     stroke-width: 6;
-  }
-  .floating-logo {
-    width: 40px;
-    height: 40px;
   }
   .timeline-text.company {
     font-size: 16px;

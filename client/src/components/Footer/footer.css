@@ -1,0 +1,28 @@
+.site-footer {
+  background: #1c1c1c; /* Darker background */
+  padding: 10px 20px; /* Less vertical padding for reduced height */
+  text-align: center;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-logo {
+  width: 60px; /* Adjust size as needed */
+  height: 60px;
+  border-radius: 50%; /* Makes the logo circular */
+  overflow: hidden; /* Ensures the image stays within the circle */
+  margin-bottom: 8px; /* Spacing below the logo */
+}
+
+.footer-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the image covers the circular area */
+}
+
+.footer-text {
+  font-size: 0.8rem; /* Smaller text size */
+}

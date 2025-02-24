@@ -14,7 +14,7 @@ export const registerUser = createAsyncThunk(
       `${import.meta.env.VITE_API_URL}/api/auth/register`,
       formData,
       {
-        withCredentials: true,
+        // withCredentials: true,
       }
     );
     return response.data;

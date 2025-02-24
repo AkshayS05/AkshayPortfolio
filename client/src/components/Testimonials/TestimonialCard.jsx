@@ -42,6 +42,7 @@ const TestimonialCard = ({
           position={[2, 2.3, 0.01]}
           fontSize={0.7}
           color="#dd4c62"
+          maxWidth={2}
           anchorX="left"
           anchorY="middle"
           outlineWidth={0.02}

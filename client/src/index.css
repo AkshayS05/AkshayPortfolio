@@ -34,7 +34,13 @@ section {
   height: 100vh;
   scroll-snap-align: center;
 }
-
+.Toastify {
+  height: 0;
+}
+.footer-section {
+  margin-top: 5rem;
+  height: auto;
+}
 @media (min-width: 640px) {
   .container {
     max-width: 640px;

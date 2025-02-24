@@ -1,0 +1,58 @@
+.splash-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle, #2f204e, #dd4c62);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.splash-logo {
+  width: 200px; /* Ensure width and height are equal */
+  height: 200px; /* for a perfect circle */
+  border-radius: 50%; /* Makes the image circular */
+  object-fit: cover; /* Ensures the image fills the container */
+  animation: logoAnimation 4s ease-in-out forwards;
+}
+.splash-title {
+  color: #fff;
+  font-size: 2.5rem;
+  margin-top: 20px;
+  opacity: 0;
+  animation: titleFadeIn 4s ease-in-out forwards;
+}
+
+@keyframes logoAnimation {
+  0% {
+    transform: scale(0.5) rotate(0deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1) rotate(360deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(360deg);
+    opacity: 1;
+  }
+}
+
+@keyframes titleFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  60% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

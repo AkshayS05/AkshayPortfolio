@@ -31,10 +31,10 @@ const Hero = ({ user, onAuthOpen, onReviewOpen, onLogout }) => (
         transition={{ duration: 1 }}
         className="hTitle"
       >
-        Hey There, <br />
+        Hey {user?.name || "There"}, <br />
         I'm Akshay!
       </motion.h1>
-
+      {console.log(user)}
       <motion.div
         variants={awardVariants}
         initial="initial"
@@ -54,7 +54,6 @@ const Hero = ({ user, onAuthOpen, onReviewOpen, onLogout }) => (
           <motion.img variants={awardVariants} src="award3.png" alt="Award 3" />
         </motion.div>
       </motion.div>
-
       {/* 3D Auth Controls placed below Top rated developer */}
       <motion.div
         className="auth-controls"
@@ -78,7 +77,6 @@ const Hero = ({ user, onAuthOpen, onReviewOpen, onLogout }) => (
           </>
         )}
       </motion.div>
-
       <motion.a
         animate={{ y: [0, 5], opacity: [0, 1, 0] }}
         transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
@@ -119,13 +117,22 @@ const Hero = ({ user, onAuthOpen, onReviewOpen, onLogout }) => (
         animate="animate"
         className="follow"
       >
-        <motion.a variants={followVariants} href="/">
+        <motion.a
+          variants={followVariants}
+          href="https://www.instagram.com/byte_book_exchange?igsh=cjFtcnF1dm1lcDF0"
+        >
           <img src="/instagram.png" alt="instagram" />
         </motion.a>
-        <motion.a variants={followVariants} href="/">
-          <img src="/facebook.png" alt="facebook" />
+        <motion.a
+          variants={followVariants}
+          href="https://www.linkedin.com/in/akshaysharma05/"
+        >
+          <img src="/linkedin.png" alt="linkedin" />
         </motion.a>
-        <motion.a variants={followVariants} href="/">
+        <motion.a
+          variants={followVariants}
+          href="https://www.youtube.com/@masteringieltsexam3945"
+        >
           <img src="/youtube.png" alt="youtube" />
         </motion.a>
         <motion.div variants={followVariants} className="followTextContainer">
