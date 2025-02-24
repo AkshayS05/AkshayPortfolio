@@ -26,3 +26,36 @@
 .footer-text {
   font-size: 0.8rem; /* Smaller text size */
 }
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .site-footer {
+    padding: 8px 15px;
+  }
+
+  .footer-logo {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 6px;
+  }
+
+  .footer-text {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-footer {
+    padding: 6px 10px;
+  }
+
+  .footer-logo {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 4px;
+  }
+
+  .footer-text {
+    font-size: 0.7rem;
+  }
+}
