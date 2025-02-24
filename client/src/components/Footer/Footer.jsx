@@ -1,4 +1,4 @@
-import "./Footer.css";
+import "./footer.css";
 import logo from "../../../public/brand_logo.png"; // Update the path to your logo
 
 const Footer = () => {
