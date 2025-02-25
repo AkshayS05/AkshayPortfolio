@@ -37,25 +37,12 @@
   }
 }
 
-/* Floating logo: you can keep the floating animation if desired */
+/* Floating logo styles */
 .floating-logo {
-  animation: floatUpDown 2s ease-in-out infinite;
-  animation-delay: 1s;
-  width: 60px;
-  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
   object-fit: cover;
-}
-
-@keyframes floatUpDown {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-  100% {
-    transform: translateY(0);
-  }
+  box-shadow: 0 0 10px rgba(221, 76, 98, 0.7);
 }
 
 /* Timeline text styles */
@@ -106,10 +93,10 @@
   }
 }
 
-/* Responsive Styles */
+/* Responsive Styles for screens up to 768px */
 @media only screen and (max-width: 768px) {
   .snake-section {
-    padding: 1rem;
+    padding: 0.5rem;
   }
   .snake-title {
     font-size: 2rem;
@@ -119,13 +106,17 @@
     stroke-width: 6;
   }
   .timeline-text.company {
-    font-size: 16px;
+    font-size: 8px;
   }
   .timeline-text.dates,
   .timeline-text.title {
-    font-size: 12px;
+    font-size: 6px;
   }
   .experience-dot {
     r: 4;
+  }
+  .floating-logo {
+    width: 40px;
+    height: 40px;
   }
 }

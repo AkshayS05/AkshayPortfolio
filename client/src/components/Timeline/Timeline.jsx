@@ -8,7 +8,7 @@ const experiences = [
     startDate: "April 2019",
     endDate: "July 2020",
     title: "FrontEnd Developer",
-    imageOffset: { x: 0, y: -75 }, // default: 75px above the dot
+    imageOffset: { x: -40, y: -75 },
   },
   {
     company: "Events365Canada",
@@ -16,7 +16,7 @@ const experiences = [
     startDate: "July 2020",
     endDate: "Mar 2021",
     title: "Web Developer",
-    imageOffset: { x: 20, y: -80 }, // tweak as needed
+    imageOffset: { x: -20, y: -80 },
   },
   {
     company: "Coding Ninjas",
@@ -24,6 +24,7 @@ const experiences = [
     startDate: "Mar 2021",
     endDate: "Dec 2021",
     title: "Java Teaching Assistant",
+    imageOffset: { x: -20, y: -80 },
   },
   {
     company: "Ecomtent",
@@ -70,7 +71,6 @@ function Timeline() {
       const newPositions = experiences.map((_, i) => {
         const distance = (totalLength / (experiences.length - 1)) * i;
         const point = pathRef.current.getPointAtLength(distance);
-        // Dot: exactly on the path.
         return { x: point.x, y: point.y };
       });
       setPositions(newPositions);
@@ -81,8 +81,7 @@ function Timeline() {
   const pathD = isSmallScreen
     ? "M 200,50 C 50,200 350,400 200,550 C 50,700 350,900 200,1050"
     : "M 50,200 C 200,50 400,350 550,200 C 700,50 900,350 1050,200";
-  // Adjust viewBox to add margin at edges so first and last markers aren’t cut.
-  const viewBox = isSmallScreen ? "0 -50 400 1200" : "-50 0 1200 400";
+  const viewBox = isSmallScreen ? "-15 -50 400 1200" : "-50 0 1200 400";
 
   return (
     <section className="snake-section">
@@ -104,6 +103,9 @@ function Timeline() {
               <feMergeNode in="SourceGraphic" />
             </feMerge>
           </filter>
+          <clipPath id="logoClip">
+            <circle cx="25" cy="25" r="25" />
+          </clipPath>
         </defs>
         <path
           ref={pathRef}
@@ -111,51 +113,203 @@ function Timeline() {
           d={pathD}
           stroke="url(#pathGradient)"
         />
-        {positions.map((pos, i) => (
-          <g key={i}>
-            {/* Dot exactly on the snake path */}
-            <circle className="experience-dot" cx={pos.x} cy={pos.y} r="5" />
-            {/* For vertical layout, offset details 80px to the right;
-                for large screens, details remain centered */}
-            <g
-              className="experience-details"
-              transform={isSmallScreen ? `translate(80, 0)` : `translate(0, 0)`}
-            >
-              <image
-                href={experiences[i].logo}
-                width="50"
-                height="50"
-                className="floating-logo"
-                x={pos.x}
-                y={pos.y}
-              />
-              <text
-                x={pos.x}
-                y={pos.y - 85}
-                className="timeline-text company"
-                textAnchor="middle"
-              >
-                {experiences[i].company}
-              </text>
-              <text
-                x={pos.x}
-                y={pos.y - 65}
-                className="timeline-text dates"
-                textAnchor="middle"
-              >
-                {experiences[i].startDate} - {experiences[i].endDate}
-              </text>
-              <text
-                x={pos.x}
-                y={pos.y - 45}
-                className="timeline-text title"
-                textAnchor="middle"
-              >
-                {experiences[i].title}
-              </text>
+        {positions.map((pos, i) => {
+          // For larger screens, use your existing centered layout.
+          if (!isSmallScreen) {
+            const isOdd = i % 2 === 0;
+            const imageOffsetX = experiences[i].imageOffset
+              ? experiences[i].imageOffset.x
+              : 0;
+            const imageY = isOdd ? pos.y - 70 : pos.y + 60;
+            return (
+              <g key={i}>
+                <circle
+                  className="experience-dot"
+                  cx={pos.x}
+                  cy={pos.y}
+                  r="5"
+                />
+                <g className="experience-details" transform="translate(0,0)">
+                  {isOdd ? (
+                    <>
+                      <image
+                        href={experiences[i].logo}
+                        width="50"
+                        height="50"
+                        clipPath="url(#logoClip)"
+                        preserveAspectRatio="xMidYMid slice"
+                        className="floating-logo"
+                        x={imageX}
+                        y={imageY}
+                      />
+
+                      <text
+                        x={pos.x}
+                        y={pos.y + 40}
+                        className="timeline-text company"
+                        textAnchor="middle"
+                      >
+                        {experiences[i].company}
+                      </text>
+                      <text
+                        x={pos.x}
+                        y={pos.y + 60}
+                        className="timeline-text dates"
+                        textAnchor="middle"
+                      >
+                        {experiences[i].startDate} - {experiences[i].endDate}
+                      </text>
+                      <text
+                        x={pos.x}
+                        y={pos.y + 80}
+                        className="timeline-text title"
+                        textAnchor="middle"
+                      >
+                        {experiences[i].title}
+                      </text>
+                    </>
+                  ) : (
+                    <>
+                      <text
+                        x={pos.x}
+                        y={pos.y - 70}
+                        className="timeline-text company"
+                        textAnchor="middle"
+                      >
+                        {experiences[i].company}
+                      </text>
+                      <text
+                        x={pos.x}
+                        y={pos.y - 50}
+                        className="timeline-text dates"
+                        textAnchor="middle"
+                      >
+                        {experiences[i].startDate} - {experiences[i].endDate}
+                      </text>
+                      <text
+                        x={pos.x}
+                        y={pos.y - 30}
+                        className="timeline-text title"
+                        textAnchor="middle"
+                      >
+                        {experiences[i].title}
+                      </text>
+                      <image
+                        href={experiences[i].logo}
+                        width="50"
+                        height="50"
+                        className="floating-logo"
+                        x={pos.x + imageOffsetX}
+                        y={imageY}
+                      />
+                    </>
+                  )}
+                </g>
+              </g>
+            );
+          }
+
+          // For small screens, use an alternating horizontal layout:
+          // Odd items: image on left, text on right.
+          // Even items: text on left, image on right.
+          const isOdd = i % 2 === 0;
+          // Define a horizontal margin for small screens.
+          const margin = 60; // Adjust this value as needed.
+          // Calculate positions:
+          let imageX, textX;
+          // Center vertical positions for image and text.
+          const imageY = pos.y - 25; // assuming image height 50px
+          const textY1 = pos.y - 10;
+          const textY2 = pos.y + 10;
+          const textY3 = pos.y + 30;
+          if (isOdd) {
+            // Odd: image to left, text to right.
+            imageX = pos.x - margin - 50; // image width = 50
+            textX = pos.x + margin;
+          } else {
+            // Even: text to left, image to right.
+            imageX = pos.x + margin;
+            textX = pos.x - margin - 50;
+          }
+          return (
+            <g key={i}>
+              <circle className="experience-dot" cx={pos.x} cy={pos.y} r="5" />
+              <g className="experience-details">
+                {isOdd ? (
+                  <>
+                    <image
+                      href={experiences[i].logo}
+                      width="50"
+                      height="50"
+                      className="floating-logo"
+                      x={imageX}
+                      y={imageY}
+                    />
+                    <text
+                      x={textX}
+                      y={textY1}
+                      className="timeline-text company"
+                      textAnchor="start"
+                    >
+                      {experiences[i].company}
+                    </text>
+                    <text
+                      x={textX}
+                      y={textY2}
+                      className="timeline-text dates"
+                      textAnchor="start"
+                    >
+                      {experiences[i].startDate} - {experiences[i].endDate}
+                    </text>
+                    <text
+                      x={textX}
+                      y={textY3}
+                      className="timeline-text title"
+                      textAnchor="start"
+                    >
+                      {experiences[i].title}
+                    </text>
+                  </>
+                ) : (
+                  <>
+                    <text
+                      x={textX}
+                      y={textY1}
+                      className="timeline-text company"
+                      textAnchor="end"
+                    >
+                      {experiences[i].company}
+                    </text>
+                    <text
+                      x={textX}
+                      y={textY2}
+                      className="timeline-text dates"
+                      textAnchor="end"
+                    >
+                      {experiences[i].startDate} - {experiences[i].endDate}
+                    </text>
+                    <text
+                      x={textX}
+                      y={textY3}
+                      className="timeline-text title"
+                      textAnchor="end"
+                    >
+                      {experiences[i].title}
+                    </text>
+                    <image
+                      href={experiences[i].logo}
+                      width="50"
+                      height="50"
+                      className="floating-logo"
+                      x={imageX}
+                      y={imageY}
+                    />
+                  </>
+                )}
+              </g>
             </g>
-          </g>
-        ))}
+          );
+        })}
       </svg>
     </section>
   );
