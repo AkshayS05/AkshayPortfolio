@@ -3,6 +3,7 @@ import ComputerModelContainer from "./computer/ComputerModelContainer";
 import Counter from "./Counter";
 import "./services.css";
 import { motion, useInView } from "motion/react";
+import MarketingModelContainer from "./marketing/MarketingModelContainer";
 
 const textVariants = {
   initial: {
@@ -100,6 +101,7 @@ const Services = () => {
       </div>
       <div className="sSection right">
         currentServiceId===1? <ComputerModelContainer /> : currentServiceId===2?
+        <MarketingModelContainer />
       </div>
     </div>
   );

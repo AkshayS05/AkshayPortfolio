@@ -1,8 +1,9 @@
+/* HERO SECTION */
+
 /* Container */
 .hero2 {
   position: relative;
   height: 80vh;
-  /* background: linear-gradient(135deg, #2f204e23, #dd4c6231); */
   overflow: hidden;
 }
 
@@ -28,7 +29,6 @@
   transform: translateY(-50%);
   background: rgba(221, 76, 98, 0.7);
   border: none;
-  /* color: white; */
   font-size: 2rem;
   padding: 10px 20px;
   cursor: pointer;
@@ -54,12 +54,12 @@
   z-index: 10;
 }
 
-/* Responsive adjustments for small and medium screens */
+/* Responsive adjustments */
 
-/* For medium screens (up to 768px wide) */
+/* Medium screens (max-width: 768px) */
 @media (max-width: 768px) {
   .hero2 {
-    height: 70vh; /* slightly reduced height */
+    height: 70vh;
   }
   .nav-button {
     font-size: 1.5rem;
@@ -77,10 +77,10 @@
   }
 }
 
-/* For small screens (up to 480px wide) */
+/* Small screens (max-width: 480px) */
 @media (max-width: 480px) {
   .hero2 {
-    height: 60vh; /* further reduced for smaller devices */
+    height: 60vh;
   }
   .nav-button {
     font-size: 1.2rem;
@@ -95,5 +95,26 @@
   .scroll-instructions {
     font-size: 0.8rem;
     bottom: 10px;
+  }
+}
+
+/* Extra small screens (max-width: 360px) */
+@media (max-width: 360px) {
+  .hero2 {
+    height: 50vh;
+  }
+  .nav-button {
+    font-size: 1rem;
+    padding: 4px 8px;
+  }
+  .nav-button.prev {
+    left: 3px;
+  }
+  .nav-button.next {
+    right: 3px;
+  }
+  .scroll-instructions {
+    font-size: 0.7rem;
+    bottom: 5px;
   }
 }

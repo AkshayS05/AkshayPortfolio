@@ -103,9 +103,6 @@ function Timeline() {
               <feMergeNode in="SourceGraphic" />
             </feMerge>
           </filter>
-          <clipPath id="logoClip">
-            <circle cx="25" cy="25" r="25" />
-          </clipPath>
         </defs>
         <path
           ref={pathRef}
@@ -136,13 +133,10 @@ function Timeline() {
                         href={experiences[i].logo}
                         width="50"
                         height="50"
-                        clipPath="url(#logoClip)"
-                        preserveAspectRatio="xMidYMid slice"
                         className="floating-logo"
-                        x={imageX}
+                        x={pos.x + imageOffsetX}
                         y={imageY}
                       />
-
                       <text
                         x={pos.x}
                         y={pos.y + 40}

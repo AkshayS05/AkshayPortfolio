@@ -31,16 +31,16 @@ const TestimonialCard = ({
         {/* Frosted Glass Background */}
         <FrostedGlass width={9} height={6} position={[0, 0, 0]} />
 
-        {/* Profile Picture */}
+        {/* Smaller Profile Picture */}
         <mesh position={[-3, 2.3, 0.01]}>
-          <circleGeometry args={[1.0, 32]} />
+          <circleGeometry args={[0.7, 32]} />
           <meshBasicMaterial map={texture} />
         </mesh>
 
-        {/* Username */}
+        {/* Smaller Username */}
         <Text
           position={[2, 2.3, 0.01]}
-          fontSize={0.7}
+          fontSize={0.5}
           color="#dd4c62"
           maxWidth={2}
           anchorX="left"

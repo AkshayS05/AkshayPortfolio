@@ -37,12 +37,32 @@
   }
 }
 
-/* Floating logo styles */
-.floating-logo {
-  border-radius: 50%;
-  overflow: hidden;
-  object-fit: cover;
-  box-shadow: 0 0 10px rgba(221, 76, 98, 0.7);
+.snake-svg .floating-logo {
+  animation: floatUpDown 2s ease-in-out infinite;
+  animation-delay: 1s;
+  width: 60px;
+  height: 60px;
+  object-fit: contain; /* Ensures the logo scales uniformly */
+  border-radius: 10px; /* Rounds the corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds depth */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.snake-svg .floating-logo:hover {
+  transform: scale(1.1); /* Subtle zoom on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes floatUpDown {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
 
 /* Timeline text styles */
@@ -106,17 +126,17 @@
     stroke-width: 6;
   }
   .timeline-text.company {
-    font-size: 8px;
+    font-size: 9px;
   }
   .timeline-text.dates,
   .timeline-text.title {
-    font-size: 6px;
+    font-size: 8px;
   }
   .experience-dot {
     r: 4;
   }
   .floating-logo {
-    width: 40px;
+    width: 40px; /* Reduced from 50 or 60 */
     height: 40px;
   }
 }

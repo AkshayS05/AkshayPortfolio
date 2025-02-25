@@ -13,7 +13,6 @@ export const fetchAllReviews = createAsyncThunk(
   "rating/fetchAllReviews",
   async (_, thunkAPI) => {
     try {
-      console.log("Called");
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/api/reviews/get`,
         {
