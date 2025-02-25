@@ -3,7 +3,8 @@ import { useGLTF } from "@react-three/drei";
 export function ComputerModel(props) {
   const { nodes, materials } = useGLTF("/computerModel.glb");
   return (
-    <group {...props} dispose={null}>
+    // Wrap in an outer group with the same rotation you used before:
+    <group {...props} dispose={null} rotation={[0, Math.PI, 0]}>
       <group position={[0.121, 0.007, 0]}>
         <mesh
           geometry={nodes.Object_11.geometry}
@@ -22,4 +23,4 @@ export function ComputerModel(props) {
   );
 }
 
-useGLTF.preload("/computer.glb");
+useGLTF.preload("/computerModel.glb");
