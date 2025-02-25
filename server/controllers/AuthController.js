@@ -5,23 +5,85 @@ const bcrypt = require("bcrypt");
 const router = express.Router();
 const jwtSecret = process.env.JWT_SECRET || "SECRET_KEY";
 const Session = require("../models/Session");
+const crypto = require("crypto");
 const { saveSession, deleteSession } = require("../helpers/sessionCache");
+const {
+  sendVerificationEmail,
+  sendVerificationCode,
+} = require("../helpers/sendVerificationEmail");
 
-// 🔹 Register User
+//verify email
+const verifyEmail = async (req, res) => {
+  try {
+    const { token } = req.query; // e.g., /verify-email?token=xxx
+    if (!token) return res.status(400).send("Missing token");
+
+    // Find the user by the verification token stored in the database
+    const user = await User.findOne({ verificationToken: token });
+    if (!user) return res.status(400).send("Invalid or expired token");
+
+    // Mark user as verified
+    user.verified = true;
+    user.verificationToken = null;
+    await user.save();
+
+    // Automatically redirect the user to the login page (or any desired page)
+    return res.redirect(`${process.env.CLIENT_BASE_URL}/login?verified=true`);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send("Server Error");
+  }
+};
+
 const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
+    console.log(req.body);
+    if (!name || !email || !password) {
+      return res
+        .status(400)
+        .json({ error: "Please provide name, email, and password." });
+    }
 
-    const existingUser = await User.findOne({ email });
-    if (existingUser)
-      return res.status(400).json({ error: "User already exists" });
+    let user = await User.findOne({ email });
+    if (user) {
+      // If user exists but not verified, update the token and resend verification
+      if (!user.verified) {
+        const verificationToken = crypto.randomBytes(32).toString("hex");
+        user.verificationToken = verificationToken;
+        await user.save();
+        const verifyLink = `${process.env.API_URL}/api/auth/verify-email?token=${verificationToken}`;
+        await sendVerificationEmail(email, verifyLink);
+        return res.status(200).json({
+          message:
+            "Your account is pending verification. A new verification email has been sent.",
+        });
+      } else {
+        return res.status(400).json({ error: "User already exists" });
+      }
+    }
 
-    const hashPassword = await bcrypt.hash(password, 12);
+    // Create new user record with verified: false
+    const hashedPassword = await bcrypt.hash(password, 12);
+    const verificationToken = crypto.randomBytes(32).toString("hex");
+    user = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+      verified: false,
+      verificationToken,
+      createdAt: new Date(),
+    });
 
-    const newUser = await User.create({ name, email, password: hashPassword });
+    const verifyLink = `${process.env.API_URL}/api/auth/verify-email?token=${verificationToken}`;
+    await sendVerificationEmail(email, verifyLink);
 
-    res.status(201).json({ message: "User registered successfully" });
+    return res.status(200).json({
+      message:
+        "Verification email sent. Please check your inbox to verify your account.",
+    });
   } catch (err) {
+    console.error("Error in registerUser:", err);
     res.status(500).json({ error: "Server Error", details: err.message });
   }
 };
@@ -33,13 +95,17 @@ const loginUser = async (req, res) => {
 
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ error: "User not found" });
+    // 🔹 Check verified status
+    if (!user.verified) {
+      return res.status(400).json({ error: "Please verify your email first" });
+    }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ error: "Invalid credentials" });
 
     const token = jwt.sign(
       { id: user._id, role: user.role, email: user.email },
-      "SECRET_KEY",
+      jwtSecret,
       { expiresIn: "7d" }
     );
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
@@ -75,7 +141,7 @@ const authMiddleware = (req, res, next) => {
     return res.status(401).json({ success: false, message: "Unauthorized" });
   }
   try {
-    const decoded = jwt.verify(token, "SECRET_KEY");
+    const decoded = jwt.verify(token, jwtSecret);
     // Optionally fetch the full user from DB here if you only store user ID in the token
     req.user = decoded;
     next();
@@ -137,4 +203,10 @@ const logoutUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser, logoutUser, authMiddleware };
+module.exports = {
+  registerUser,
+  loginUser,
+  logoutUser,
+  authMiddleware,
+  verifyEmail,
+};

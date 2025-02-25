@@ -16,7 +16,7 @@ function saveSession(userId, token) {
  * @returns {string|null} - The session token if found; otherwise, null.
  */
 function getSession(userId) {
-  return sessionStorage.get(userId) || null;
+  return sessionCache.get(userId) || null;
 }
 
 // delete session

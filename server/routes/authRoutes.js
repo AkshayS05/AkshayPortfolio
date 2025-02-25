@@ -4,12 +4,14 @@ const {
   loginUser,
   logoutUser,
   authMiddleware,
+  verifyEmail,
 } = require("../controllers/AuthController");
 const router = express.Router();
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.post("/logout", logoutUser);
+router.get("/verify-email", verifyEmail);
 
 router.get("/check-auth", authMiddleware, (req, res) => {
   if (!req.user) {

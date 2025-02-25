@@ -84,6 +84,26 @@ const deleteReview = async (req, res) => {
   }
 };
 
+//top k reviews
+// While we can use MongoDB’s built‑in sorting (e.g., .sort({ rating: -1 }).limit(10)), this requires querying the database each time the top 10 is requested.
+const getTopKReviews = async (req, res) => {
+  try {
+    const reviews = await Review.find().populate("userId");
+    //create a heap and insert all reviews
+    const heap = new MaxHeap();
+    reviews.forEach((review) => heap.insert(review));
+
+    const topReviews = [];
+    const k = 10;
+    for (let i = 0; i < k && heap.heap.length > 0; i++) {
+      topReviews.push(heap.extractMax());
+    }
+    res.json({ topReviews });
+  } catch (err) {
+    res.status(500).json({ error: "Server Error" });
+  }
+};
+
 module.exports = {
   getAllReviews,
   getSingleReviewById,
