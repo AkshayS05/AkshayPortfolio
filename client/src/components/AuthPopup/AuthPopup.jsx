@@ -43,12 +43,25 @@ const AuthPopup = ({ onClose, onLoginSuccess }) => {
       setFormData({ name: "", email: "", password: "" });
       setIsVerifying(true);
     } catch (err) {
-      // Check if the error object contains a response with a data.error message
+      // Try to extract error details from the response
+      const status = err.response?.status;
       const errorMessage =
-        (err.response && err.response.data && err.response.data.error) ||
+        err.response?.data?.error ||
+        err.response?.data?.message ||
         err.message ||
         "An error occurred. Please try again.";
-      toast.error(errorMessage);
+
+      // If the error status is 400, assume the email is already registered
+      if (status === 400) {
+        // Optionally, you could inspect errorMessage further if needed:
+        // if (errorMessage.toLowerCase().includes("user already exists")) { ... }
+        toast.error("Email already registered. Please log in.");
+        setIsLogin(true);
+        // Optionally, keep the email field prefilled:
+        setFormData({ name: "", email: formData.email, password: "" });
+      } else {
+        toast.error(errorMessage);
+      }
     }
   };
 
