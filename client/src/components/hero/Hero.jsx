@@ -34,7 +34,7 @@ const Hero = ({ user, onAuthOpen, onReviewOpen, onLogout }) => (
         Hey {user?.name || "There"}, <br />
         I'm Akshay!
       </motion.h1>
-      {console.log(user)}
+
       <motion.div
         variants={awardVariants}
         initial="initial"

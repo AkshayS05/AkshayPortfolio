@@ -10,7 +10,6 @@ const initialState = {
 export const registerUser = createAsyncThunk(
   "/auth/register",
   async (formData) => {
-    console.log(formData);
     const response = await axios.post(
       `${import.meta.env.VITE_API_URL}/api/auth/register`,
       formData,
@@ -48,7 +47,6 @@ export const checkAuth = createAsyncThunk(
       // Return only the user object:
       return response.data.user;
     } catch (error) {
-      console.log(error.message);
       // If the error status is 401, it means the user is not logged in.
       if (error.response && error.response.status === 401) {
         // Instead of rejecting, we return null (or you could return an object indicating not authenticated)
