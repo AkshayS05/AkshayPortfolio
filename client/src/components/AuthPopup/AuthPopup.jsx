@@ -50,9 +50,9 @@ const AuthPopup = ({ onClose, onLoginSuccess }) => {
         err.response?.data?.message ||
         err.message ||
         "An error occurred. Please try again.";
-
+      console.log(err.message);
       // If the error status is 400, assume the email is already registered
-      if (status === 400) {
+      if ((err.message = "Request failed with status code 400")) {
         // Optionally, you could inspect errorMessage further if needed:
         // if (errorMessage.toLowerCase().includes("user already exists")) { ... }
         toast.error("Email already registered. Please log in.");
