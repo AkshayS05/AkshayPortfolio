@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser, registerUser } from "../../features/auth/authSlice";
 import { toast } from "react-toastify";
 import ReactDOM from "react-dom";
+import { useSearchParams } from "react-router-dom";
 import "./AuthPopup.css";
 import PopupBackground3D from "./PopupBackground3D";
 import EmailVerification from "./EmailVerification";
@@ -19,10 +20,16 @@ const AuthPopup = ({ onClose, onLoginSuccess }) => {
     password: "",
   });
   const [mounted, setMounted] = useState(false);
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     setMounted(true);
-  }, []);
+
+    // 👇 Check if "verified=true" is in the URL
+    if (searchParams.get("verified") === "true") {
+      setIsLogin(true); // Show Login form only
+    }
+  }, [searchParams]);
 
   // Get a dedicated portal container from index.html
   const portalElement = document.getElementById("portal");
