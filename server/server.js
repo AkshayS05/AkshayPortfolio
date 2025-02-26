@@ -23,8 +23,8 @@ app.use(express.json());
 app.use(cookieParser());
 // routes
 
-app.use("/api/reviews", reviewRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/reviews", reviewRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);

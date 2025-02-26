@@ -28,7 +28,7 @@ const verifyEmail = async (req, res) => {
     await user.save();
 
     // Automatically redirect the user to the login page (or any desired page)
-    return res.redirect(`${process.env.CLIENT_BASE_URL}/login?verified=true`);
+    return res.redirect(`${process.env.CLIENT_BASE_URL}/?verified=true`);
   } catch (err) {
     console.error(err);
     return res.status(500).send("Server Error");
