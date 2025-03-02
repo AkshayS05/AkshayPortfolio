@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -25,11 +25,12 @@ const textVariants = {
 const TestimonialsSection = () => {
   const dispatch = useDispatch();
   const { reviews, isLoading, error } = useSelector((state) => state.rating);
+  const [filter, setFilter] = useState("");
 
   useEffect(() => {
     // Dispatch fetchAllReviews on mount regardless of auth state.
-    dispatch(fetchAllReviews());
-  }, [dispatch]);
+    dispatch(fetchAllReviews({ sort: filter }));
+  }, [dispatch, filter]);
 
   return (
     <section id="testimonials" className="testimonials-section">
@@ -41,6 +42,25 @@ const TestimonialsSection = () => {
       >
         What Others Say
       </motion.h2>
+      <div className="filter-container">
+        <label htmlFor="filter" className="filter-label">
+          <span role="img" aria-label="filter">
+            🔍
+          </span>{" "}
+          Filter:
+        </label>
+        <select
+          id="filter"
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+          className="filter-select"
+        >
+          <option value="">Default</option>
+          <option value="top10">Top 10 Reviews</option>
+          <option value="asc">Lowest to Highest</option>
+          <option value="desc">Highest to Lowest</option>
+        </select>
+      </div>
       {isLoading ? (
         <p>Loading reviews...</p>
       ) : error ? (

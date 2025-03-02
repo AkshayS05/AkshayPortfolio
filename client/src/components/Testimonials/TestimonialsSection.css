@@ -93,6 +93,40 @@
     font-size: 0.85rem;
   }
 }
+/* Filter container styling */
+.filter-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Label styling with a gold accent */
+.filter-label {
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 1.2rem;
+  color: #ffd700; /* Gold accent */
+  margin-right: 10px;
+}
+
+/* Stylish select dropdown */
+.filter-select {
+  padding: 8px 12px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.85);
+  color: #2f204e; /* Dark color for contrast */
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+/* Focus state */
+.filter-select:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #dd4c62;
+}
 
 /* Extra small screens (max-width: 360px) */
 @media (max-width: 360px) {
@@ -113,5 +147,14 @@
   }
   .testimonial-text {
     font-size: 0.8rem;
+  }
+}
+@media (max-width: 480px) {
+  .filter-label {
+    font-size: 1rem;
+  }
+  .filter-select {
+    padding: 6px 10px;
+    font-size: 0.9rem;
   }
 }

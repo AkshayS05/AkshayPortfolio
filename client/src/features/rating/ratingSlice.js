@@ -11,15 +11,15 @@ const initialState = {
 /** Fetch all reviews + average rating from your backend */
 export const fetchAllReviews = createAsyncThunk(
   "rating/fetchAllReviews",
-  async (_, thunkAPI) => {
+  async ({ sort }, thunkAPI) => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/reviews/get`,
+        `${import.meta.env.VITE_API_URL}/api/reviews/get?sort=${sort}`,
         {
           withCredentials: true, // if you need cookies
         }
       );
-      // The backend returns { avgRating, reviews }
+
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -93,7 +93,6 @@ const ratingSlice = createSlice({
       .addCase(fetchAllReviews.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = null;
-        state.avgRating = action.payload.avgRating;
         state.reviews = action.payload.reviews;
       })
       .addCase(fetchAllReviews.rejected, (state, action) => {
