@@ -1,15 +1,25 @@
 const Review = require("../models/Rating");
+const reviewTree = require("../helpers/reviewTreeInstance");
+
+//on app start, load reviews into BST from mongodb
 
 // 🔹 Get all reviews
 const getAllReviews = async (req, res) => {
   try {
-    const reviews = await Review.find().populate("userId", "name avatar");
-    const avgRating = (
-      reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length
-    ).toFixed(1);
-    res.json({ avgRating, reviews });
-  } catch (err) {
-    res.status(500).json({ error: "Server Error" });
+    const { sort } = req.query;
+    let result = [];
+
+    if (sort === "top10") {
+      result = reviewTree.getTopKReviews(10);
+    } else if (sort === "asc") {
+      result = reviewTree.getSortedReviews("asc");
+    } else {
+      result = reviewTree.getSortedReviews("desc");
+    }
+
+    res.json({ reviews: result });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching reviews", error });
   }
 };
 
@@ -29,7 +39,6 @@ const getSingleReviewById = async (req, res) => {
 
 // 🔹 Add a new review (Only one per user)
 const addReview = async (req, res) => {
-  console.log(req.body, "here.....");
   try {
     const { rating, testimonial } = req.body;
     const userId = req.user.id; // Get user ID from authentication
@@ -41,6 +50,7 @@ const addReview = async (req, res) => {
         .json({ error: "You have already submitted a review" });
 
     const newReview = await Review.create({ userId, rating, testimonial });
+    reviewTree.insert(newReview);
     res.status(201).json(newReview);
   } catch (err) {
     res.status(500).json({ error: "Server Error" });
@@ -78,6 +88,9 @@ const deleteReview = async (req, res) => {
     }
 
     await review.deleteOne();
+    //Remove from BST
+    reviewTree.remove(review);
+
     res.json({ message: "Review deleted successfully" });
   } catch (err) {
     res.status(500).json({ error: "Server Error" });
@@ -89,15 +102,10 @@ const deleteReview = async (req, res) => {
 const getTopKReviews = async (req, res) => {
   try {
     const reviews = await Review.find().populate("userId");
-    //create a heap and insert all reviews
-    const heap = new MaxHeap();
-    reviews.forEach((review) => heap.insert(review));
-
-    const topReviews = [];
-    const k = 10;
-    for (let i = 0; i < k && heap.heap.length > 0; i++) {
-      topReviews.push(heap.extractMax());
-    }
+    const reviewTree = new ReviewBST();
+    reviews.forEach((review) => reviewTree.insert(review));
+    // get highest rated reviews
+    const topReviews = reviewTree.getTopKReviews(10);
     res.json({ topReviews });
   } catch (err) {
     res.status(500).json({ error: "Server Error" });
