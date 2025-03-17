@@ -1,7 +1,8 @@
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Stars } from "@react-three/drei";
 import { useSelector, useDispatch } from "react-redux";
+import debounce from "lodash.debounce";
 import {
   fetchAllReviews,
   deleteReview,
@@ -23,12 +24,34 @@ const Testimonials3D = () => {
   const [popupData, setPopupData] = useState(null);
   // Trigger deletion animation on the current card
   const [deleteTriggered, setDeleteTriggered] = useState(false);
+  // Responsive camera position state
+  const [cameraPosition, setCameraPosition] = useState([0, 0, 9]);
 
-  // useEffect(() => {
-  //   dispatch(fetchAllReviews());
-  // }, [dispatch]);
+  const currentReview = useMemo(
+    () => reviews[currentIndex],
+    [reviews, currentIndex]
+  );
 
-  // Navigation
+  useEffect(() => {
+    // Adjust camera based on window width
+    const handleResize = debounce(() => {
+      const width = window.innerWidth;
+      if (width < 480) {
+        setCameraPosition([0, 0, 12]); // Zoom out a bit more on very small screens
+      } else if (width < 768) {
+        setCameraPosition([0, 0, 10]);
+      } else {
+        setCameraPosition([0, 0, 9]);
+      }
+    }, 100);
+
+    window.addEventListener("resize", handleResize);
+    // Initialize on mount
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Navigation handlers
   const handleNext = () => {
     setCurrentIndex((prev) => (prev >= reviews.length - 1 ? 0 : prev + 1));
   };
@@ -37,24 +60,22 @@ const Testimonials3D = () => {
     setCurrentIndex((prev) => (prev <= 0 ? reviews.length - 1 : prev - 1));
   };
 
-  // For editing, simply set popup data
-  const handleEditClick = (data) => {
+  // Editing handler
+  const handleEditClick = useCallback((data) => {
     setPopupData(data);
-  };
+  });
 
-  // When delete icon is clicked, trigger animation
-  const handleDeleteClick = (reviewId) => {
+  // Deletion handler
+  const handleDeleteClick = useCallback((reviewId) => {
     setDeleteTriggered(true);
-  };
+  });
 
-  // Called when the deletion animation finishes
-  const onDeleteAnimationEnd = () => {
-    // Dispatch deletion of the current review
+  // Called when deletion animation ends
+  const onDeleteAnimationEnd = useCallback(() => {
     dispatch(deleteReview(reviews[currentIndex]._id))
       .unwrap()
       .then(() => {
         toast.success("Review deleted successfully!");
-        // If there are still reviews, show the next one (or wrap around)
         setCurrentIndex((prev) => (prev >= reviews.length - 1 ? 0 : prev));
         setDeleteTriggered(false);
       })
@@ -62,7 +83,7 @@ const Testimonials3D = () => {
         toast.error(err || "Error deleting review");
         setDeleteTriggered(false);
       });
-  };
+  });
 
   if (isLoading) {
     return (
@@ -92,7 +113,7 @@ const Testimonials3D = () => {
         <Canvas
           className="canvas"
           gl={{ alpha: true }}
-          camera={{ position: [0, 0, 9] }}
+          camera={{ position: cameraPosition }}
         >
           <Stars
             radius={100}
@@ -111,13 +132,13 @@ const Testimonials3D = () => {
               onDeleteAnimationEnd={onDeleteAnimationEnd}
             >
               <TestimonialCard
-                testimonial={reviews[currentIndex].testimonial}
-                username={reviews[currentIndex].userId?.name || "Anonymous"}
-                rating={reviews[currentIndex].rating}
+                testimonial={currentReview.testimonial}
+                username={currentReview.userId?.name || "Anonymous"}
+                rating={currentReview.rating}
                 position={[0, 0, 0]}
-                userPic={reviews[currentIndex].userId?.profilePic}
-                reviewId={reviews[currentIndex]._id}
-                ownerId={reviews[currentIndex].userId} // Adjust if needed
+                userPic={currentReview.userId?.profilePic}
+                reviewId={currentReview._id}
+                ownerId={currentReview.userId} // Adjust if needed
                 currentUserId={user?.id}
                 onEditClick={handleEditClick}
                 onDeleteClick={handleDeleteClick}

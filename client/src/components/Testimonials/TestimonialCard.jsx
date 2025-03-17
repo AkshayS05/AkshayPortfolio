@@ -2,6 +2,7 @@ import { Float, Text, useTexture } from "@react-three/drei";
 import FrostedGlass from "./TransparentPlane";
 import EditIcon from "./EditIcon";
 import DeleteIcon from "./DeleteIcon";
+import React from "react";
 
 const TestimonialCard = ({
   testimonial,
@@ -97,4 +98,4 @@ const TestimonialCard = ({
   );
 };
 
-export default TestimonialCard;
+export default React.memo(TestimonialCard);

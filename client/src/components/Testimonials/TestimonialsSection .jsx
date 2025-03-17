@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { motion } from "motion/react";
 import { useDispatch, useSelector } from "react-redux";
-
 import TestimonialCarousel3D from "./Testimonials3D";
 import "./TestimonialsSection.css";
 import { fetchAllReviews } from "../../features/rating/ratingSlice";
@@ -27,10 +26,18 @@ const TestimonialsSection = () => {
   const { reviews, isLoading, error } = useSelector((state) => state.rating);
   const [filter, setFilter] = useState("");
 
+  const filterParams = useMemo(() => {
+    ({ sort: filter });
+  }, [filter]);
+
+  const fetchReviews = useCallback(() => {
+    dispatch(fetchAllReviews(filterParams));
+  }, [dispatch, filterParams]);
+
   useEffect(() => {
     // Dispatch fetchAllReviews on mount regardless of auth state.
-    dispatch(fetchAllReviews({ sort: filter }));
-  }, [dispatch, filter]);
+    fetchReviews();
+  }, [fetchReviews]);
 
   return (
     <section id="testimonials" className="testimonials-section">
